@@ -6,35 +6,39 @@
 @import "@fontsource/montserrat/800.css";
 @import "@fontsource/montserrat/900.css";
 
+/* ===== Design System — Tropical Rain Forest Theme ===== */
 @theme {
   --font-montserrat: "Montserrat", sans-serif;
-  --color-orange-500: #FF6B35;
-  --color-orange-600: #E85D2A;
-  --color-orange-700: #D14F1F;
-  --color-orange-400: #FF8C5A;
-  --color-orange-300: #FFB088;
-  --color-orange-200: #FFD4C0;
-  --color-orange-100: #FFF0E8;
-  --color-orange-50: #FFF7F2;
-  --color-dark-900: #1A1A2E;
-  --color-dark-800: #16213E;
-  --color-dark-700: #0F3460;
-  --color-gray-50: #F8F9FA;
+
+  /* Primary — Tropical Rain Forest */
+  --color-teal-600: #0a9a80;
+  --color-teal-500: #0DB496;
+  --color-teal-400: #2ecba8;
+  --color-teal-300: #5edbbe;
+  --color-teal-200: #a0ebd8;
+  --color-teal-100: #d0f5ec;
+  --color-teal-50:  #edfaf7;
+
+  /* Accent warm */
+  --color-amber-500: #f59e0b;
+  --color-amber-400: #fbbf24;
+
+  /* Neutrals — Onyx base */
+  --color-dark-900: #1a1a1a;
+  --color-dark-800: #222222;
+  --color-dark-700: #383737;
+  --color-gray-50:  #F8F9FA;
   --color-gray-100: #F1F3F5;
-  --color-gray-200: #E9ECEF;
+  --color-gray-200: #E7E7E7;
   --color-gray-300: #DEE2E6;
   --color-gray-400: #ADB5BD;
   --color-gray-500: #6C757D;
   --color-gray-600: #495057;
-  --color-gray-700: #343A40;
+  --color-gray-700: #383737;
   --color-gray-800: #212529;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Tailwind v4 already provides its own preflight reset via @import "tailwindcss" */
 
 html {
   scroll-behavior: smooth;
@@ -42,15 +46,20 @@ html {
 
 body {
   font-family: "Montserrat", sans-serif;
-  color: var(--color-gray-800);
+  color: var(--color-gray-700);
   background: #fff;
   overflow-x: hidden;
   width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 #root {
   overflow-x: hidden;
-  width: 100%;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* ===== Scroll Animations ===== */
@@ -103,6 +112,7 @@ body {
 .delay-200 { transition-delay: 0.2s; }
 .delay-300 { transition-delay: 0.3s; }
 .delay-400 { transition-delay: 0.4s; }
+.delay-500 { transition-delay: 0.5s; }
 
 /* ===== Gallery Masonry ===== */
 .masonry-grid {
@@ -118,41 +128,24 @@ body {
   .masonry-grid { columns: 3; column-gap: 1.25rem; }
   .masonry-grid .masonry-item { margin-bottom: 1.25rem; }
 }
-
 @media (max-width: 1024px) {
   .masonry-grid { columns: 2; column-gap: 1.25rem; }
   .masonry-grid .masonry-item { margin-bottom: 1.25rem; }
 }
-
 @media (max-width: 640px) {
   .masonry-grid { columns: 1; column-gap: 1rem; }
   .masonry-grid .masonry-item { margin-bottom: 1rem; }
 }
 
-/* ===== Section separators ===== */
-.section-wave {
-  position: relative;
-}
-.section-wave::before {
-  content: '';
-  position: absolute;
-  top: -60px;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: inherit;
-  clip-path: ellipse(55% 100% at 50% 100%);
-}
-
 /* ===== Custom scrollbar ===== */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: var(--color-orange-500); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-orange-600); }
+::-webkit-scrollbar-thumb { background: var(--color-teal-500); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-teal-600); }
 
-/* ===== Gradient text helper ===== */
+/* ===== Gradient text helper (teal) ===== */
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-orange-500), var(--color-orange-400));
+  background: linear-gradient(135deg, var(--color-teal-500), var(--color-teal-400));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -166,8 +159,46 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* ===== Particle dots background ===== */
+/* ===== Dot pattern ===== */
 .bg-dots {
   background-image: radial-gradient(circle, #dee2e6 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* ===== Leaderboard rank pulse ===== */
+@keyframes rankPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(13, 180, 150, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(13, 180, 150, 0); }
+}
+.rank-pulse {
+  animation: rankPulse 2s ease-in-out infinite;
+}
+
+/* ===== Testimonial slider ===== */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+/* ===== Floating animation ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ===== Shimmer for pricing ===== */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer-border {
+  background: linear-gradient(90deg, transparent 33%, rgba(13,180,150,0.3) 50%, transparent 67%);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
 }

@@ -4,6 +4,10 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Vision from './components/Vision';
 import Activities from './components/Activities';
+import Events from './components/Events';
+import Leaderboard from './components/Leaderboard';
+import Membership from './components/Membership';
+import Coaches from './components/Coaches';
 import Gallery from './components/Gallery';
 import Footer from './components/Footer';
 
@@ -35,6 +39,10 @@ function App() {
       <About />
       <Vision />
       <Activities />
+      <Events />
+      <Leaderboard />
+      <Membership />
+      <Coaches />
       <Gallery />
       <Footer />
     </div>

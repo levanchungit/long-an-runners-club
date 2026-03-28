@@ -48,7 +48,7 @@ export default function Gallery() {
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         {/* Section header */}
         <div className="text-center mb-16 lg:mb-20 animate-on-scroll">
-          <span className="inline-block px-4 py-1.5 bg-orange-100 text-orange-600 text-xs font-bold rounded-full uppercase tracking-widest mb-5">
+          <span className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 text-xs font-bold rounded-full uppercase tracking-widest mb-5">
             Thư viện
           </span>
           <h2 className="text-[28px] sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-800 leading-[1.2] break-words">
@@ -64,7 +64,7 @@ export default function Gallery() {
           {images.map((img, i) => (
             <div
               key={i}
-              className={`masonry-item group relative overflow-hidden rounded-[1.25rem] cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)] transition-all duration-300 transform hover:-translate-y-1`}
+              className="masonry-item group relative overflow-hidden rounded-[1.25rem] cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.15)] transition-all duration-300 transform hover:-translate-y-1"
             >
               <img
                 src={img.src}

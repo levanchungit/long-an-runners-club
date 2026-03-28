@@ -9,8 +9,8 @@ export default function Vision() {
       title: 'Tầm nhìn & Sứ mệnh',
       description:
         'Giúp cộng đồng tích cực vận động, thay đổi tư duy về sức khỏe và xây dựng lối sống năng động hơn. Chúng tôi mong muốn mỗi người dân Long An đều có thể tiếp cận và yêu thích bộ môn chạy bộ.',
-      accent: 'from-orange-500 to-amber-500',
-      iconBg: 'bg-orange-100 text-orange-600',
+      accent: 'from-teal-500 to-teal-400',
+      iconBg: 'bg-teal-100 text-teal-600',
     },
     {
       icon: (
@@ -35,13 +35,12 @@ export default function Vision() {
 
   return (
     <section className="py-24 md:py-32 bg-gray-50 relative overflow-hidden">
-      {/* Dot pattern background */}
       <div className="absolute inset-0 bg-dots opacity-40" />
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         {/* Section header */}
         <div className="text-center mb-16 animate-on-scroll">
-          <span className="inline-block px-4 py-1.5 bg-orange-100 text-orange-600 text-xs font-bold rounded-full uppercase tracking-widest mb-5">
+          <span className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 text-xs font-bold rounded-full uppercase tracking-widest mb-5">
             Giá trị cốt lõi
           </span>
           <h2 className="text-[28px] sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-800 leading-[1.2] break-words">
@@ -59,7 +58,6 @@ export default function Vision() {
               key={card.title}
               className={`animate-on-scroll ${i === 1 ? 'delay-200' : ''} group relative bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_4px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)] transition-all duration-500 border border-gray-100/80 hover:-translate-y-1 overflow-hidden`}
             >
-              {/* Gradient accent line */}
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${card.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
               <div className={`w-14 h-14 ${card.iconBg} rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 shrink-0`}>
@@ -80,7 +78,7 @@ export default function Vision() {
           {values.map((v, i) => (
             <div
               key={v.text}
-              className={`delay-${(i + 1) * 100} group flex flex-col items-center text-center gap-3 p-6 bg-white rounded-2xl shadow-sm hover:shadow-[0_10px_30px_rgba(255,107,53,0.12)] transition-all duration-300 hover:-translate-y-1 border border-gray-100/50`}
+              className={`delay-${(i + 1) * 100} group flex flex-col items-center text-center gap-3 p-6 bg-white rounded-2xl shadow-sm hover:shadow-[0_10px_30px_rgba(13,180,150,0.12)] transition-all duration-300 hover:-translate-y-1 border border-gray-100/50`}
             >
               <span className="text-3xl group-hover:scale-125 transition-transform duration-300 block">
                 {v.icon}
