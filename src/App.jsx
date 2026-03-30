@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import ClubStats from './components/ClubStats';
 import About from './components/About';
-import Vision from './components/Vision';
+import LastWeekLeaders from './components/LastWeekLeaders';
+import Leaderboard from './components/Leaderboard';
+import RecentActivities from './components/RecentActivities';
+import ClubMembers from './components/ClubMembers';
 import Activities from './components/Activities';
 import Events from './components/Events';
-import Leaderboard from './components/Leaderboard';
 import Membership from './components/Membership';
 import Coaches from './components/Coaches';
 import Gallery from './components/Gallery';
@@ -36,11 +39,18 @@ function App() {
     <div className="font-montserrat">
       <Header />
       <Hero />
+      <ClubStats />
       <About />
-      <Vision />
+
+      {/* ─── Khu vực Strava Data ─── */}
+      <LastWeekLeaders />
+      <Leaderboard />
+      <RecentActivities />
+      <ClubMembers />
+
+      {/* ─── Khu vực Club info ─── */}
       <Activities />
       <Events />
-      <Leaderboard />
       <Membership />
       <Coaches />
       <Gallery />

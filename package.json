@@ -12,6 +12,12 @@
   "dependencies": {
     "@fontsource/montserrat": "^5.2.8",
     "@tailwindcss/vite": "^4.2.2",
+    "axios": "^1.14.0",
+    "cheerio": "^1.2.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.3.1",
+    "firebase": "^12.11.0",
+    "lucide-react": "^1.7.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "tailwindcss": "^4.2.2"

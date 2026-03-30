@@ -13,10 +13,11 @@ export default function Header() {
   const navLinks = [
     { label: 'Trang chủ', href: '#hero' },
     { label: 'Giới thiệu', href: '#about' },
-    { label: 'Lịch tập', href: '#programs' },
-    { label: 'Sự kiện', href: '#events' },
+    { label: 'Thành tích', href: '#last-week-leaders' },
     { label: 'Xếp hạng', href: '#leaderboard' },
-    { label: 'Hội viên', href: '#membership' },
+    { label: 'Hoạt động', href: '#recent-activities' },
+    { label: 'Thành viên', href: '#members' },
+    { label: 'Sự kiện', href: '#events' },
     { label: 'Hình ảnh', href: '#gallery' },
   ];
 
