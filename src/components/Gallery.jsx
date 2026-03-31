@@ -1,43 +1,52 @@
+import img1 from '../assets/2-7-2023 vi vu cuối tuần LA Runners.jpg';
+import img2 from '../assets/21-10-2023 Việt dã 4km Bến Lức.jpg';
+import img3 from '../assets/5-8-2023 Thắng Lợi group.jpg';
+import img4 from '../assets/9-7-2023 Khai trương Running Hub.jpg';
+import img5 from '../assets/hoatdongganday/512688821_24271575209149634_4520065071772723961_n.jpg';
+import img6 from '../assets/hoatdongganday/625983573_122282804576196671_2295474227059813827_n.jpg';
+import img7 from '../assets/hoatdongganday/629766390_26265716039735531_1096467467314448818_n.jpg';
+import img8 from '../assets/hoatdongganday/XuanYeuThuong2026.jpg';
+
 export default function Gallery() {
   const images = [
     {
-      src: 'https://images.unsplash.com/photo-1513593771513-7b58b6c4af38?w=800&q=80',
-      alt: 'Vận động viên chạy marathon',
+      src: img1,
+      alt: 'Vi vu cuối tuần LA Runners',
       height: 'h-[18rem]',
     },
     {
-      src: 'https://images.unsplash.com/photo-1502224562085-6dfe2f6de48b?w=800&q=80',
-      alt: 'Chạy bộ công viên',
+      src: img2,
+      alt: 'Việt dã 4km Bến Lức',
       height: 'h-[14rem]',
     },
     {
-      src: 'https://images.unsplash.com/photo-1486218119243-13883505764c?w=800&q=80',
-      alt: 'Giải marathon phong trào',
+      src: img3,
+      alt: 'Giao lưu Thắng Lợi Group',
       height: 'h-[20rem]',
     },
     {
-      src: 'https://images.unsplash.com/photo-1502904550040-7534597429ae?w=800&q=80',
-      alt: 'Tập luyện chạy bộ',
+      src: img4,
+      alt: 'Khai trương Running Hub',
       height: 'h-[16rem]',
     },
     {
-      src: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800&q=80',
-      alt: 'Chạy bộ hoàng hôn',
+      src: img5,
+      alt: 'Hoạt động câu lạc bộ gần đây',
       height: 'h-[22rem]',
     },
     {
-      src: 'https://images.unsplash.com/photo-1596727362302-b8d891c42ab8?w=800&q=80',
-      alt: 'Phong trào chạy bộ cộng đồng',
+      src: img6,
+      alt: 'Tập luyện cùng đồng đội',
       height: 'h-[18rem]',
     },
     {
-      src: 'https://images.unsplash.com/photo-1594882645126-14020914d58d?w=800&q=80',
-      alt: 'Đường chạy marathon',
+      src: img7,
+      alt: 'Sự kiện phong trào',
       height: 'h-[16rem]',
     },
     {
-      src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80',
-      alt: 'Khoảnh khắc về đích',
+      src: img8,
+      alt: 'Xuân Yêu Thương 2026',
       height: 'h-[20rem]',
     },
   ];

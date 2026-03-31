@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import useClubInfo from '../hooks/useClubInfo';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { clubInfo } = useClubInfo();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -34,19 +36,23 @@ export default function Header() {
         {/* Logo */}
         <a href="#hero" className="flex items-center gap-2.5 group">
           <div
-            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
+            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 overflow-hidden ${
               scrolled
                 ? 'bg-gradient-to-br from-teal-500 to-teal-600 shadow-md'
                 : 'bg-white/15 backdrop-blur-sm border border-white/20'
             }`}
           >
-            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z" />
-            </svg>
+            {clubInfo?.profile_medium ? (
+              <img src={clubInfo.profile_medium} alt="Logo" className="w-full h-full object-cover" />
+            ) : (
+              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z" />
+              </svg>
+            )}
           </div>
           <div className="flex flex-col leading-tight">
             <span className={`text-[17px] font-extrabold tracking-tight transition-colors duration-300 ${scrolled ? 'text-gray-800' : 'text-white'}`}>
-              Long An <span className="text-teal-500">Runners</span>
+              {clubInfo?.name || "Long An Runners"}
             </span>
             <span className={`text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors duration-300 ${scrolled ? 'text-gray-400' : 'text-white/50'}`}>
               Running Club
@@ -67,12 +73,6 @@ export default function Header() {
               {link.label}
             </a>
           ))}
-          <a
-            href="#membership"
-            className="ml-3 px-5 py-2.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white text-[12px] font-bold rounded-full shadow-[0_4px_15px_rgba(13,180,150,0.4)] hover:shadow-[0_6px_20px_rgba(13,180,150,0.5)] hover:translate-y-[-1px] active:translate-y-0 transition-all duration-200"
-          >
-            Tham gia ngay
-          </a>
         </nav>
 
         {/* Mobile menu button */}
@@ -118,13 +118,6 @@ export default function Header() {
               {link.label}
             </a>
           ))}
-          <a
-            href="#membership"
-            onClick={() => setMobileOpen(false)}
-            className="mt-4 w-full text-center px-6 py-3.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white text-[13px] font-bold rounded-full shadow-lg"
-          >
-            Tham gia ngay
-          </a>
         </nav>
       </div>
     </header>

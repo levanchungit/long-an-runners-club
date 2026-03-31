@@ -16,7 +16,7 @@ export default function Events() {
     {
       name: 'Ngắm Hoàng Hôn Bên Sông Vàm Cỏ',
       date: '24 Tháng 11, 2025',
-      location: 'Bến Lức, Long An',
+      location: 'Khu đô thị Water Point - Bến Lức, Long An',
       image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
       distances: [
         { km: '5KM', price: '200.000₫', color: 'bg-green-100 text-green-700' },

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, query, getDocs } from 'firebase/firestore';
 import { db, hasFirebaseConfig } from '../firebase';
 
 export default function Leaderboard() {
   const [tab, setTab] = useState('week');
   const [loading, setLoading] = useState(true);
+  const [avatarMap, setAvatarMap] = useState({});
 
   const fallbackData = {
     week: [
@@ -21,6 +22,24 @@ export default function Leaderboard() {
   useEffect(() => {
     if (!hasFirebaseConfig || !db) { setLoading(false); return; }
     try {
+      const fetchAvatars = async () => {
+        try {
+          const snap = await getDocs(collection(db, 'members'));
+          const map = {};
+          snap.docs.forEach(d => {
+            const data = d.data();
+            if (data.name && data.profile_medium) {
+              map[data.name] = data.profile_medium;
+            }
+          });
+          setAvatarMap(map);
+        } catch (e) {
+          console.warn("Could not fetch avatars:", e);
+        }
+      };
+      
+      fetchAvatars();
+
       const q = query(collection(db, 'leaderboard'));
       const unsub = onSnapshot(q, (snap) => {
         const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -129,7 +148,13 @@ export default function Leaderboard() {
 
               {/* Name */}
               <div className="flex items-center gap-3 min-w-0">
-                <span className="text-xl">{r.avatar || '🏃'}</span>
+                <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 overflow-hidden shadow-sm border border-gray-200">
+                  {avatarMap[r.name] && avatarMap[r.name].length > 10 ? (
+                    <img src={avatarMap[r.name]} alt={r.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-xl">{r.avatar || '🏃'}</span>
+                  )}
+                </div>
                 <div className="min-w-0">
                   <p className="font-bold text-gray-800 text-[14px] truncate">{r.name}</p>
                   <div className="flex items-center gap-3 mt-0.5 lg:hidden">

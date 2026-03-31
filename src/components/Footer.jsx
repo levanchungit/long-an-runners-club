@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import useClubInfo from '../hooks/useClubInfo';
 
 export default function Footer() {
+  const { clubInfo } = useClubInfo();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -22,7 +24,7 @@ export default function Footer() {
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8 mt-[-3rem] z-10 pt-16">
         <div className="relative rounded-[2rem] overflow-hidden shadow-[0_20px_60px_rgba(13,180,150,0.3)] border border-teal-400/20">
           <div className="absolute inset-0 bg-gradient-to-br from-teal-500 via-teal-600 to-teal-700" />
-          
+
           {/* Abstract circles */}
           <div className="absolute -top-32 -left-32 w-64 h-64 rounded-full bg-white/10 blur-3xl mix-blend-overlay" />
           <div className="absolute -bottom-32 -right-32 w-80 h-80 rounded-full bg-teal-300/20 blur-3xl mix-blend-overlay" />
@@ -33,11 +35,11 @@ export default function Footer() {
                 Sẵn sàng bắt đầu hành trình?
               </h2>
               <p className="text-white/80 text-[14px] sm:text-[16px] leading-relaxed break-words">
-                Tham gia <strong className="text-white">Long An Runners Club</strong> ngay hôm nay và trở thành một phần của cộng đồng chạy bộ năng động nhất tỉnh Long An.
+                Tham gia <strong className="text-white">{clubInfo?.name || "Long An Runners Club"}</strong> ngay hôm nay và trở thành một phần của cộng đồng chạy bộ năng động nhất tỉnh Long An.
               </p>
             </div>
             <a
-              href="https://www.facebook.com"
+              href="https://zalo.me/g/zkotdw991"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center justify-center gap-2 px-8 py-4 bg-white text-teal-600 font-bold text-[15px] rounded-full shadow-[0_8px_25px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.25)] hover:-translate-y-1 transition-all duration-300"
@@ -57,14 +59,18 @@ export default function Footer() {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z" />
-                </svg>
+              <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
+                {clubInfo?.profile_medium ? (
+                  <img src={clubInfo.profile_medium} alt="Logo" className="w-full h-full object-cover" />
+                ) : (
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z" />
+                  </svg>
+                )}
               </div>
               <div className="flex flex-col leading-tight">
                 <span className="text-[17px] font-extrabold tracking-tight text-white">
-                  Long An <span className="text-teal-400">Runners</span>
+                  {clubInfo?.name || "Long An Runners"}
                 </span>
                 <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">
                   Running Club
@@ -72,7 +78,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-400 text-[14px] leading-relaxed mb-8 pr-4">
-              Cộng đồng chạy bộ năng động nhất tỉnh Long An. Cùng nhau rèn luyện, chia sẻ và chinh phục mọi nẻo đường.
+              {clubInfo?.description || "Cộng đồng chạy bộ năng động nhất tỉnh Long An. Cùng nhau rèn luyện, chia sẻ và chinh phục mọi nẻo đường."}
             </p>
 
             {/* Social */}
@@ -122,7 +128,7 @@ export default function Footer() {
                 <svg className="w-4 h-4 text-teal-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span className="flex-1 break-words">Nguyễn Văn Dũng (Đại diện)</span>
+                <span className="flex-1 break-words">Bùi Thịnh An (Đại diện)</span>
               </li>
               <li className="flex items-center gap-3 w-full">
                 <svg className="w-4 h-4 text-teal-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,7 +151,6 @@ export default function Footer() {
                 { label: 'Lịch tập', href: '#programs' },
                 { label: 'Sự kiện', href: '#events' },
                 { label: 'Xếp hạng', href: '#leaderboard' },
-                { label: 'Hội viên', href: '#membership' },
               ].map((link) => (
                 <li key={link.label}>
                   <a href={link.href} className="hover:text-teal-400 transition-colors flex items-center gap-1.5 group">
@@ -193,7 +198,7 @@ export default function Footer() {
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-[13px]">
-            &copy; {new Date().getFullYear()} <span className="text-gray-400 font-semibold">Long An Runners Club</span>. All rights reserved.
+            &copy; {new Date().getFullYear()} <span className="text-gray-400 font-semibold">{clubInfo?.name || "Long An Runners Club"}</span>. All rights reserved.
           </p>
           <div className="flex items-center gap-6 text-[13px] text-gray-500">
             <a href="#" className="hover:text-teal-400 transition-colors">Bảo mật</a>

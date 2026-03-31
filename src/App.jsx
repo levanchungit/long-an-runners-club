@@ -9,7 +9,6 @@ import RecentActivities from './components/RecentActivities';
 import ClubMembers from './components/ClubMembers';
 import Activities from './components/Activities';
 import Events from './components/Events';
-import Membership from './components/Membership';
 import Coaches from './components/Coaches';
 import Gallery from './components/Gallery';
 import Footer from './components/Footer';
@@ -51,7 +50,6 @@ function App() {
       {/* ─── Khu vực Club info ─── */}
       <Activities />
       <Events />
-      <Membership />
       <Coaches />
       <Gallery />
       <Footer />

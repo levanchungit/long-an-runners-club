@@ -1,34 +1,38 @@
 import { useState, useEffect, useCallback } from 'react';
+import imgAn from '../assets/chunhiemclb/chunhiemclb.jpg';
+import imgPhat from '../assets/chunhiemclb/phochunhiem1.jpg';
+import imgNguyen from '../assets/chunhiemclb/phochunhiem2.jpg';
+import imgDat from '../assets/chunhiemclb/phochunhiem3.jpg';
 
 export default function Coaches() {
   const coaches = [
     {
-      name: 'Nguyễn Văn Dũng',
-      role: 'Head Pacer / Founder',
-      specialty: 'Marathon, Ultra-marathon',
-      image: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&q=80',
-      bio: 'Hơn 8 năm kinh nghiệm chạy bộ, nhiều lần hoàn thành Full Marathon dưới 3h30.',
+      name: 'Bùi Thịnh An',
+      role: 'Chủ nhiệm CLB',
+      specialty: 'Ban Quản Trị',
+      image: imgAn,
+      bio: 'Cam kết dẫn dắt, giữ lửa và phát triển CLB bền vững',
     },
     {
-      name: 'Trần Minh Tuấn',
-      role: 'Pacer 5:00',
-      specialty: 'Interval Training',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-      bio: 'Chuyên gia về tốc độ, giúp hội viên cải thiện pace một cách hiệu quả và an toàn.',
+      name: 'Vũ Đăng Phát',
+      role: 'Phó Chủ nhiệm',
+      specialty: 'Ban Quản Trị',
+      image: imgPhat,
+      bio: 'Học hỏi – trao đổi – nâng cấp đội ngũ',
     },
     {
-      name: 'Lê Thị Hương',
-      role: 'Pacer 6:00',
-      specialty: 'Long Distance Running',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80',
-      bio: 'Người truyền cảm hứng cho phong trào chạy bộ nữ tại Long An, 3 lần hoàn thành Full Marathon.',
+      name: 'Nguyễn Lương Thanh Nguyên',
+      role: 'Phó Chủ nhiệm',
+      specialty: 'Ban Quản Trị',
+      image: imgNguyen,
+      bio: 'Lan tỏa chạy bộ đến cộng đồng',
     },
     {
-      name: 'Phạm Đức Hải',
-      role: 'Recovery Coach',
-      specialty: 'Phục hồi & Dinh dưỡng',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80',
-      bio: 'Chuyên gia về phục hồi thể lực, giúp hội viên chạy bền hơn, ít chấn thương hơn.',
+      name: 'Nguyễn Tấn Đạt',
+      role: 'Phó Chủ nhiệm',
+      specialty: 'Ban Quản Trị',
+      image: imgDat,
+      bio: 'Cống hiến hết mình cho tập thể',
     },
   ];
 
@@ -75,13 +79,13 @@ export default function Coaches() {
         {/* ===== Coaches ===== */}
         <div className="text-center mb-16 animate-on-scroll">
           <span className="inline-block px-4 py-1.5 bg-teal-50 text-teal-600 text-xs font-bold rounded-full uppercase tracking-widest mb-5">
-            Đội ngũ
+            Core Team
           </span>
           <h2 className="text-[28px] sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-800 leading-[1.2] break-words">
-            Huấn luyện viên & <span className="text-gradient">Pacer</span>
+            Ban quản trị <span className="text-gradient">CLB</span>
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto text-[15px] sm:text-[17px] mt-3 px-2">
-            Đội ngũ dẫn tốc chuyên nghiệp, đồng hành cùng bạn trên mọi cung đường
+            Đội ngũ dẫn dắt và phát triển cộng đồng Long An Runners bền vững
           </p>
         </div>
 
@@ -113,7 +117,7 @@ export default function Coaches() {
               <div className="p-5">
                 <h4 className="text-[16px] font-bold text-gray-800 mb-0.5">{coach.name}</h4>
                 <p className="text-teal-500 text-[12px] font-semibold uppercase tracking-wider mb-3">{coach.role}</p>
-                <p className="text-gray-500 text-[13px] leading-relaxed">{coach.bio}</p>
+                <p className="text-gray-500 text-[13px] leading-relaxed min-h-[40px]">{coach.bio}</p>
               </div>
             </div>
           ))}

@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react';
 import { doc, onSnapshot, collection, getDocs } from 'firebase/firestore';
 import { db, hasFirebaseConfig } from '../firebase';
+import useClubInfo from '../hooks/useClubInfo';
 
 export default function ClubStats() {
-  const [clubInfo, setClubInfo] = useState(null);
+  const { clubInfo } = useClubInfo();
   const [totalActivities, setTotalActivities] = useState(0);
   const [totalKm, setTotalKm] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!hasFirebaseConfig || !db) { setLoading(false); return; }
-
-    const unsub1 = onSnapshot(doc(db, 'club_info', 'main'), (snap) => {
-      if (snap.exists()) setClubInfo(snap.data());
-    }, (err) => console.warn("ClubInfo error:", err));
 
     const fetchStats = async () => {
       try {
@@ -26,8 +23,6 @@ export default function ClubStats() {
       setLoading(false);
     };
     fetchStats();
-
-    return () => unsub1();
   }, []);
 
   const stats = [

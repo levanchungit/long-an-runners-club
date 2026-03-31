@@ -1,4 +1,9 @@
+import useClubInfo from '../hooks/useClubInfo';
+import coverImg from '../assets/IMG_5055.jpg';
+
 export default function Hero() {
+  const { clubInfo } = useClubInfo();
+
   return (
     <section
       id="hero"
@@ -7,8 +12,8 @@ export default function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=1920&q=80"
-          alt="Nhóm người chạy bộ lúc bình minh"
+          src={coverImg}
+          alt={clubInfo?.name || "Nhóm người chạy bộ lúc bình minh"}
           className="w-full h-full object-cover scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/50 to-gray-900/90" />
@@ -25,7 +30,7 @@ export default function Hero() {
         <div className="inline-flex items-center gap-2.5 bg-white/[0.08] backdrop-blur-md border border-white/[0.12] rounded-full px-5 py-2.5 mb-10">
           <div className="w-2 h-2 bg-teal-400 rounded-full animate-pulse" />
           <span className="text-white/80 text-sm font-medium tracking-wide">
-            Hơn 1.100 thành viên đang hoạt động
+            Hơn {clubInfo?.member_count || 0} thành viên đang hoạt động
           </span>
         </div>
 
@@ -35,14 +40,18 @@ export default function Hero() {
         </h1>
         <p className="text-xl sm:text-2xl md:text-3xl font-bold mb-8">
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-teal-400 to-teal-300">
-            Long An Runners Club
+            {clubInfo?.name || "Long An Runners Club"}
           </span>
         </p>
 
         <p className="text-[15px] sm:text-xl text-white/80 max-w-xl mx-auto mb-10 sm:mb-12 leading-relaxed font-medium px-2">
-          Cùng nhau chinh phục mọi nẻo đường, từ Bến Lức vươn xa.
-          <br className="hidden sm:block" />
-          Khơi dậy lối sống năng động cho mọi người.
+          {clubInfo?.description || (
+            <>
+              Cùng nhau chinh phục mọi nẻo đường, từ Bến Lức vươn xa.
+              <br className="hidden sm:block" />
+              Khơi dậy lối sống năng động cho mọi người.
+            </>
+          )}
         </p>
 
         {/* Buttons */}
@@ -56,21 +65,12 @@ export default function Hero() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
             </svg>
           </a>
-          <a
-            href="#membership"
-            className="px-8 py-4 bg-gradient-to-r from-teal-500 to-teal-400 text-white font-bold rounded-full shadow-[0_8px_30px_rgba(13,180,150,0.35)] hover:shadow-[0_12px_40px_rgba(13,180,150,0.5)] hover:translate-y-[-2px] active:translate-y-0 transition-all duration-300 flex items-center gap-2 text-[15px]"
-          >
-            Đăng ký thành viên
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
         </div>
 
         {/* Stats strip */}
         <div className="mt-20 grid grid-cols-3 max-w-lg mx-auto gap-8">
           {[
-            { num: '1.100+', label: 'Thành viên' },
+            { num: clubInfo?.member_count ? `${clubInfo.member_count}+` : '1.100+', label: 'Thành viên' },
             { num: '2022', label: 'Thành lập' },
             { num: '50+', label: 'Sự kiện' },
           ].map((s) => (

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, collection, getDocs } from 'firebase/firestore';
 import { db, hasFirebaseConfig } from '../firebase';
 
 const trophyColors = ['from-yellow-400 to-amber-500', 'from-gray-300 to-gray-400', 'from-amber-600 to-amber-700'];
 
-function CategoryCard({ title, icon, leaders, color }) {
+function CategoryCard({ title, icon, leaders, color, avatarMap }) {
   return (
     <div className="bg-white rounded-3xl border border-gray-100 shadow-[0_4px_30px_rgba(0,0,0,0.05)] overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
       <div className={`h-1.5 bg-gradient-to-r ${color}`} />
@@ -16,8 +16,17 @@ function CategoryCard({ title, icon, leaders, color }) {
         <div className="space-y-3">
           {leaders && leaders.length > 0 ? leaders.map((leader, i) => (
             <div key={i} className={`flex items-center gap-3 p-3 rounded-2xl transition-colors ${i === 0 ? 'bg-amber-50/60' : 'bg-gray-50/60'}`}>
-              <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${trophyColors[i] || trophyColors[2]} flex items-center justify-center text-white text-[12px] font-black shrink-0 shadow-md`}>
-                {i + 1}
+              <div className="relative w-8 h-8 shrink-0">
+                <div className={`absolute -top-1 -left-1 z-10 w-4 h-4 rounded-full bg-gradient-to-br ${trophyColors[i] || trophyColors[2]} flex items-center justify-center text-white text-[9px] font-black shadow-sm`}>
+                  {i + 1}
+                </div>
+                <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${trophyColors[i] || trophyColors[2]} flex items-center justify-center text-white text-[12px] font-black shadow-md overflow-hidden`}>
+                  {avatarMap[leader.name] && avatarMap[leader.name].length > 10 ? (
+                    <img src={avatarMap[leader.name]} alt={leader.name} className="w-full h-full object-cover" />
+                  ) : (
+                    i + 1
+                  )}
+                </div>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-bold text-gray-800 text-[14px] truncate">{leader.name}</p>
@@ -38,10 +47,26 @@ function CategoryCard({ title, icon, leaders, color }) {
 export default function LastWeekLeaders() {
   const [leaders, setLeaders] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [avatarMap, setAvatarMap] = useState({});
 
   useEffect(() => {
     if (!hasFirebaseConfig || !db) { setLoading(false); return; }
     try {
+      const fetchAvatars = async () => {
+        try {
+          const snap = await getDocs(collection(db, 'members'));
+          const map = {};
+          snap.docs.forEach(d => {
+            const data = d.data();
+            if (data.name && data.profile_medium) {
+              map[data.name] = data.profile_medium;
+            }
+          });
+          setAvatarMap(map);
+        } catch (e) { console.warn("Could not fetch avatars:", e); }
+      };
+      
+      fetchAvatars();
       const unsub = onSnapshot(doc(db, 'leaders', 'last_week'), (snap) => {
         console.log("Last week leaders exists:", snap.exists());
         if (snap.exists()) {
@@ -90,9 +115,9 @@ export default function LastWeekLeaders() {
             <div className="flex justify-center py-20"><div className="w-12 h-12 border-4 border-teal-200 border-t-teal-500 rounded-full animate-spin" /></div>
           ) : (
             <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-              <CategoryCard title="Quãng đường" icon="🏃" leaders={leaders?.distance || []} color="from-teal-400 to-cyan-500" />
-              <CategoryCard title="Tổng thời gian chạy" icon="⏱️" leaders={leaders?.time || []} color="from-blue-400 to-indigo-500" />
-              <CategoryCard title="Leo dốc" icon="⛰️" leaders={leaders?.elevation || []} color="from-amber-400 to-orange-500" />
+              <CategoryCard title="Quãng đường" icon="🏃" leaders={leaders?.distance || []} color="from-teal-400 to-cyan-500" avatarMap={avatarMap} />
+              <CategoryCard title="Tổng thời gian chạy" icon="⏱️" leaders={leaders?.time || []} color="from-blue-400 to-indigo-500" avatarMap={avatarMap} />
+              <CategoryCard title="Leo dốc" icon="⛰️" leaders={leaders?.elevation || []} color="from-amber-400 to-orange-500" avatarMap={avatarMap} />
             </div>
           )}
         </div>

@@ -1,4 +1,8 @@
+import useClubInfo from '../hooks/useClubInfo';
+import aboutImg from '../assets/18-6-2023 OFFLINE CLB LONG AN RUNNERS.jpg';
+
 export default function About() {
+  const { clubInfo } = useClubInfo();
   const timeline = [
     {
       year: '2022',
@@ -43,7 +47,7 @@ export default function About() {
           <div className="animate-slide-left relative mb-8 lg:mb-0">
             <div className="relative rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
               <img
-                src="https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=800&q=80"
+                src={aboutImg}
                 alt="Thành viên Long An Runners Club"
                 className="w-full object-cover aspect-[4/3]"
                 loading="lazy"
@@ -61,8 +65,8 @@ export default function About() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-[11px] text-gray-500 font-medium uppercase tracking-wider">Người đại diện</p>
-                    <p className="font-bold text-gray-800 text-sm whitespace-nowrap">Nguyễn Văn Dũng</p>
+                    <p className="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Người đại diện</p>
+                    <p className="font-bold text-gray-800 text-sm whitespace-nowrap">Bùi Thịnh An</p>
                   </div>
                 </div>
               </div>
@@ -72,8 +76,8 @@ export default function About() {
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                 </svg>
                 <div className="flex flex-col">
-                   <span className="text-[11px] text-gray-500 font-medium uppercase tracking-wider">Hoạt động tại</span>
-                   <span className="text-sm font-bold text-gray-800 whitespace-nowrap">Bến Lức, Long An</span>
+                  <span className="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Hoạt động tại</span>
+                  <span className="text-sm font-bold text-gray-800 whitespace-nowrap">Khu đô thị Water Point - Bến Lức, Long An</span>
                 </div>
               </div>
             </div>
@@ -87,9 +91,9 @@ export default function About() {
               <span className="text-gradient">an toàn & hòa nhập</span>
             </h3>
             <p className="text-gray-500 leading-[1.8] mb-8 text-[16px]">
-              Câu lạc bộ chạy bộ Long An là cộng đồng thể thao năng động với hơn{' '}
-              <span className="text-teal-500 font-bold">1.100 thành viên</span>, hoạt
-              động chính tại <span className="font-bold text-gray-700">Bến Lức — Long An</span>.
+              {clubInfo?.name || "Câu lạc bộ chạy bộ Long An"} là cộng đồng thể thao năng động với hơn{' '}
+              <span className="text-teal-500 font-bold">{clubInfo?.member_count || "1.100"} thành viên</span>, hoạt
+              động chính tại <span className="font-bold text-gray-700">{clubInfo?.city ? `${clubInfo.city} — ${clubInfo.state}` : "Bến Lức — Long An"}</span>.
               Chúng tôi kết nối những người yêu thích chạy bộ mọi lứa tuổi và trình độ — từ người mới bắt đầu đến Elite — cùng nhau rèn luyện
               sức khỏe và lan tỏa lối sống tích cực đến cộng đồng.
             </p>
@@ -97,10 +101,10 @@ export default function About() {
             {/* Info Cards */}
             <div className="grid grid-cols-2 gap-3 mb-8">
               {[
-                { icon: '👥', num: '1.100+', label: 'Thành viên' },
+                { icon: '👥', num: clubInfo?.member_count ? `${clubInfo.member_count}+` : '1.100+', label: 'Thành viên' },
                 { icon: '📅', num: '2022', label: 'Năm thành lập' },
                 { icon: '🏅', num: '50+', label: 'Sự kiện tổ chức' },
-                { icon: '📍', num: 'Bến Lức', label: 'Long An' },
+                { icon: '📍', num: clubInfo?.city || 'Bến Lức', label: clubInfo?.state || 'Long An' },
               ].map((s) => (
                 <div key={s.label} className="flex items-center gap-3 p-3.5 bg-gray-50 rounded-xl hover:bg-teal-50 transition-colors group">
                   <span className="text-xl group-hover:scale-110 transition-transform">{s.icon}</span>
