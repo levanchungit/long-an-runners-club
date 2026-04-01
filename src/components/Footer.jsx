@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useClubInfo from '../hooks/useClubInfo';
+import logoImg from '../assets/logo.jpg';
 
 export default function Footer() {
   const { clubInfo } = useClubInfo();
@@ -39,7 +40,7 @@ export default function Footer() {
               </p>
             </div>
             <a
-              href="https://zalo.me/g/zkotdw991"
+              href="https://bit.ly/LARC_Đăng_Ký_Thành_Viên"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center justify-center gap-2 px-8 py-4 bg-white text-teal-600 font-bold text-[15px] rounded-full shadow-[0_8px_25px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.25)] hover:-translate-y-1 transition-all duration-300"
@@ -60,13 +61,7 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg overflow-hidden">
-                {clubInfo?.profile_medium ? (
-                  <img src={clubInfo.profile_medium} alt="Logo" className="w-full h-full object-cover" />
-                ) : (
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z" />
-                  </svg>
-                )}
+                <img src={logoImg} alt="Long An Runners Club Logo" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col leading-tight">
                 <span className="text-[17px] font-extrabold tracking-tight text-white">
@@ -84,7 +79,7 @@ export default function Footer() {
             {/* Social */}
             <div className="flex items-center gap-3">
               <a
-                href="https://www.facebook.com"
+                href="https://www.facebook.com/groups/607337244375579"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 border border-gray-700 hover:bg-teal-500 hover:border-teal-500 text-gray-300 hover:text-white rounded-xl flex items-center justify-center transition-all shadow-sm"
@@ -95,7 +90,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.strava.com"
+                href="https://www.strava.com/clubs/longanrunner"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 border border-gray-700 hover:bg-teal-500 hover:border-teal-500 text-gray-300 hover:text-white rounded-xl flex items-center justify-center transition-all shadow-sm"
@@ -104,6 +99,15 @@ export default function Footer() {
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066l-2.084 4.116zM7.478 14.43h3.064L15.387 3.04l-4.845 11.39h3.064L8.762 3.04 7.478 14.43z" />
                 </svg>
+              </a>
+              <a
+                href="https://zalo.me/g/zkotdw991"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 border border-gray-700 hover:bg-teal-500 hover:border-teal-500 text-gray-300 hover:text-white rounded-xl flex items-center justify-center transition-all shadow-sm font-bold text-[11px]"
+                aria-label="Zalo"
+              >
+                Zalo
               </a>
             </div>
           </div>
@@ -203,8 +207,8 @@ export default function Footer() {
           <div className="flex items-center gap-6 text-[13px] text-gray-500">
             <a href="#" className="hover:text-teal-400 transition-colors">Bảo mật</a>
             <a href="#" className="hover:text-teal-400 transition-colors">Điều khoản</a>
-            <span className="flex items-center gap-1">
-              Phát triển với <span className="text-red-500">♥</span> tại Việt Nam
+            <span className="flex items-center gap-1 text-gray-500">
+              Phát triển với <span className="text-red-500 px-1">♥</span> tạo bởi <span className="text-white font-medium ml-1">Lê Văn Chung</span>
             </span>
           </div>
         </div>

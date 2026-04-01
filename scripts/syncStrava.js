@@ -82,13 +82,21 @@ async function syncActivities(accessToken) {
   const activities = response.data;
   if (!Array.isArray(activities)) { console.error("❌ Dữ liệu không hợp lệ"); return 0; }
 
+  // Tải tất cả strava_id để so sánh 1 lần duy nhất thay vì query liên tục
+  const snap = await getDocs(collection(db, "activities"));
+  const existingSet = new Set();
+  snap.docs.forEach(d => existingSet.add(String(d.data().strava_id)));
+
+  const batch = writeBatch(db);
   let savedCount = 0;
+
   for (const act of activities) {
-    const activityId = act.id || `${act.athlete?.firstname}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    const q = query(collection(db, "activities"), where("strava_id", "==", activityId));
-    const snap = await getDocs(q);
-    if (snap.empty) {
-      await addDoc(collection(db, "activities"), {
+    const activityId = String(act.id || `${act.athlete?.firstname}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+
+    // Kiểm tra cái nào đã tồn tại thì bỏ qua, chỉ thêm cái mới
+    if (!existingSet.has(activityId)) {
+      const docRef = doc(collection(db, "activities"));
+      batch.set(docRef, {
         strava_id: activityId,
         athlete_name: `${act.athlete?.firstname || ''} ${act.athlete?.lastname || ''}`.trim() || 'Thành Viên',
         name: act.name || 'Hoạt động chạy bộ',
@@ -101,43 +109,91 @@ async function syncActivities(accessToken) {
         created_at: serverTimestamp()
       });
       savedCount++;
+      existingSet.add(activityId);
     }
   }
+
+  if (savedCount > 0) {
+    await batch.commit();
+  }
+
   console.log(`✅ Hoạt động: ${activities.length} tìm thấy, ${savedCount} mới.`);
   return savedCount;
 }
 
 // ─── 2. Sync Members ────────────────────────────────
 async function syncMembers(accessToken) {
-  console.log("👥 Đang kéo danh sách thành viên...");
+  console.log("👥 Đang kéo danh sách thành viên (hỗ trợ phân trang)...");
   try {
-    const response = await axios.get(`https://www.strava.com/api/v3/clubs/${STRAVA_CLUB_ID}/members?per_page=200`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    const members = response.data;
-    if (!Array.isArray(members)) return;
+    let allMembers = [];
+    let page = 1;
+    let hasMore = true;
 
-    const batch = writeBatch(db);
+    while (hasMore) {
+      const response = await axios.get(`https://www.strava.com/api/v3/clubs/${STRAVA_CLUB_ID}/members?per_page=200&page=${page}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const members = response.data;
+      
+      if (Array.isArray(members) && members.length > 0) {
+        allMembers = allMembers.concat(members);
+        page++;
+      } else {
+        hasMore = false;
+      }
+    }
+
+    if (allMembers.length === 0) return;
+
+    let batch = writeBatch(db);
     // Xóa members cũ
     const oldSnap = await getDocs(collection(db, "members"));
-    oldSnap.forEach(d => batch.delete(d.ref));
+    let deleteCount = 0;
+    
+    // Xóa 500 document mỗi batch (giới hạn của Firestore)
+    for (const d of oldSnap.docs) {
+      batch.delete(d.ref);
+      deleteCount++;
+      if (deleteCount === 500) {
+        await batch.commit();
+        batch = writeBatch(db);
+        deleteCount = 0;
+      }
+    }
+    if (deleteCount > 0) await batch.commit();
 
-    members.forEach((m, i) => {
-      const name = `${m.firstname || ''} ${m.lastname || ''}`.trim();
-      const docRef = doc(db, "members", `member_${i}`);
-      batch.set(docRef, {
-        name: name || 'Thành viên',
-        firstname: m.firstname || '',
-        lastname: m.lastname || '',
-        membership: m.membership || 'member',
-        admin: m.admin || false,
-        owner: m.owner || false,
-        profile: m.profile || '',
-        profile_medium: m.profile_medium || '',
-      });
-    });
-    await batch.commit();
-    console.log(`✅ Đã đồng bộ ${members.length} thành viên.`);
+    // Thêm members mới (mỗi batch 500)
+    batch = writeBatch(db);
+    let addCount = 0;
+    let totalAdded = 0;
+
+    for (let i = 0; i < allMembers.length; i++) {
+       const m = allMembers[i];
+       const name = `${m.firstname || ''} ${m.lastname || ''}`.trim();
+       const docRef = doc(db, "members", `member_${i}`);
+       batch.set(docRef, {
+         name: name || 'Thành viên',
+         firstname: m.firstname || '',
+         lastname: m.lastname || '',
+         membership: m.membership || 'member',
+         admin: m.admin || false,
+         owner: m.owner || false,
+         profile: m.profile || '',
+         profile_medium: m.profile_medium || '',
+       });
+       
+       addCount++;
+       totalAdded++;
+
+       if (addCount === 500) {
+         await batch.commit();
+         batch = writeBatch(db);
+         addCount = 0;
+       }
+    }
+    
+    if (addCount > 0) await batch.commit();
+    console.log(`✅ Đã đồng bộ toàn bộ ${totalAdded} thành viên.`);
   } catch (e) {
     console.warn("⚠️ Không thể lấy danh sách thành viên:", e.response?.data?.message || e.message);
   }
@@ -259,20 +315,31 @@ async function calculateLeaderboards() {
   console.log(`✅ Bảng xếp hạng: ${total} vị trí (tuần này + tuần trước + tháng). Leaders tuần trước đã cập nhật.`);
 }
 
-// ─── Main ───────────────────────────────────────────
-async function main() {
+// ─── Main: Chế độ tự động chạy vòng lặp ──────────────
+async function syncLoop() {
   try {
     const token = await getFreshAccessToken();
     await syncActivities(token);
     await syncMembers(token);
     await syncClubInfo(token);
     await calculateLeaderboards();
-    console.log("\n🎉 Hoàn tất đồng bộ tất cả dữ liệu!");
-    process.exit(0);
+    console.log(`\n🎉 Hoàn tất đồng bộ lúc ${new Date().toLocaleString('vi-VN')}`);
   } catch (error) {
     console.error("❌ Lỗi:", error.response?.data || error.message);
-    process.exit(1);
   }
+}
+
+async function main() {
+  console.log("🚀 Bắt đầu Service Đồng Bộ Tự Động...");
+
+  // Chạy lần đầu ngay lập tức
+  await syncLoop();
+
+  // Đặt lịch lặp lại sau mỗi 10 phút để liên tục lấy dữ liệu mới
+  const SYNC_INTERVAL_MINUTES = 60;
+  setInterval(syncLoop, SYNC_INTERVAL_MINUTES * 60 * 1000);
+
+  console.log(`⏳ Đã lên lịch tự động chạy lại mỗi ${SYNC_INTERVAL_MINUTES} phút. Giữ Terminal này mở để duy trì...`);
 }
 
 main();
