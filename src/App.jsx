@@ -15,7 +15,9 @@ import Footer from './components/Footer';
 
 function App() {
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const ANIM_SELECTOR = '.animate-on-scroll, .animate-slide-left, .animate-slide-right';
+
+    const intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -26,12 +28,24 @@ function App() {
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
-    const elements = document.querySelectorAll(
-      '.animate-on-scroll, .animate-slide-left, .animate-slide-right'
-    );
-    elements.forEach((el) => observer.observe(el));
+    // Observe các element đã có sẵn
+    const observeExisting = () => {
+      document.querySelectorAll(ANIM_SELECTOR).forEach((el) => {
+        intersectionObserver.observe(el);
+      });
+    };
+    observeExisting();
 
-    return () => observer.disconnect();
+    // Tự động observe element mới được thêm vào DOM (vd: sau khi fetch data xong)
+    const mutationObserver = new MutationObserver(() => {
+      observeExisting();
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      intersectionObserver.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   return (
